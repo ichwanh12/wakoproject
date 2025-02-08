@@ -3,38 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Saya</title>
+    <title>Wako Project - Website Keren</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
         }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 0 20px;
         }
+
         header {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: white;
+            padding: 60px 0;
             text-align: center;
-            padding: 20px;
-            background-color: #f0f0f0;
+        }
+
+        header h1 {
+            font-size: 2.5em;
             margin-bottom: 20px;
         }
-        h1 {
-            color: #333;
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .features {
+            padding: 60px 0;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            color: #4f46e5;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            background: #1f2937;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 40px 0;
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Selamat Datang di Website Saya</h1>
-        </header>
-        <main>
-            <p>Ini adalah website pertama saya yang di-hosting secara gratis menggunakan GitHub Pages.</p>
-            <p>Anda dapat mengedit konten ini sesuai kebutuhan Anda.</p>
-        </main>
-    </div>
+    <header>
+        <div class="container">
+            <h1>Selamat Datang di Wako Project</h1>
+            <p>Website Keren untuk Ide-ide Kreatif</p>
+        </div>
+    </header>
+
+    <section class="features">
+        <div class="container">
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Desain Modern</h3>
+                    <p>Tampilan website yang modern dan responsif untuk pengalaman pengguna yang optimal.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Teknologi Terkini</h3>
+                    <p>Menggunakan teknologi web terbaru untuk performa dan keamanan yang terbaik.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Mudah Digunakan</h3>
+                    <p>Interface yang intuitif dan ramah pengguna untuk semua kalangan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Wako Project. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>
