@@ -29,6 +29,7 @@
             color: white;
             padding: 60px 0;
             text-align: center;
+            position: relative;
         }
 
         header h1 {
@@ -39,6 +40,24 @@
         header p {
             font-size: 1.2em;
             opacity: 0.9;
+        }
+
+        .login-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: white;
+            color: #4f46e5;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: #f3f4f6;
+            transform: translateY(-2px);
         }
 
         .features {
@@ -96,6 +115,7 @@
 </head>
 <body>
     <header>
+        <a href="login.html" class="login-btn">Login</a>
         <div class="container">
             <h1>Wako Project - Website Keren</h1>
             <p>Solusi Digital untuk Bisnis Anda</p>

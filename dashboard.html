@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Wako Project</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background: #1f2937;
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+            position: fixed;
+        }
+
+        .sidebar-header {
+            padding-bottom: 20px;
+            border-bottom: 1px solid #374151;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-header h2 {
+            color: #e5e7eb;
+            font-size: 1.5rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 10px;
+        }
+
+        .nav-link {
+            color: #d1d5db;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: #374151;
+            color: white;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            width: calc(100% - 250px);
+        }
+
+        .content-header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-header h1 {
+            color: #111827;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .content-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .content-card h2 {
+            color: #374151;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .logout-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .logout-btn:hover {
+            background: #b91c1c;
+        }
+
+        /* Profile Form Styles */
+        .profile-form {
+            display: none;
+        }
+
+        .profile-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #374151;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+        }
+
+        .save-btn {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background: #4338ca;
+        }
+
+        /* Create User Form Styles */
+        .create-user-form {
+            display: none;
+        }
+
+        .create-user-form.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Wako Project</h2>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#" class="nav-link active" onclick="showContent('dashboard')">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="showContent('profile')">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="showContent('create-user')">Create User</a>
+            </li>
+        </ul>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Dashboard Content -->
+        <div id="dashboard-content" class="content-section">
+            <div class="content-header">
+                <h1>Dashboard</h1>
+                <p>Selamat datang di Dashboard Wako Project</p>
+            </div>
+            <div class="content-card">
+                <h2>Ringkasan</h2>
+                <p>Ini adalah halaman dashboard utama Anda.</p>
+            </div>
+        </div>
+
+        <!-- Profile Content -->
+        <div id="profile-content" class="content-section profile-form">
+            <div class="content-header">
+                <h1>Profile</h1>
+            </div>
+            <div class="content-card">
+                <form id="profileForm">
+                    <div class="form-group">
+                        <label for="fullName">Nama Lengkap</label>
+                        <input type="text" id="fullName" name="fullName">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Nomor Telepon</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <button type="button" class="save-btn" onclick="saveProfile()">Simpan Perubahan</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Create User Content -->
+        <div id="create-user-content" class="content-section create-user-form">
+            <div class="content-header">
+                <h1>Create User</h1>
+            </div>
+            <div class="content-card">
+                <form id="createUserForm">
+                    <div class="form-group">
+                        <label for="newUsername">Username</label>
+                        <input type="text" id="newUsername" name="newUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">Password</label>
+                        <input type="password" id="newPassword" name="newPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newEmail">Email</label>
+                        <input type="email" id="newEmail" name="newEmail" required>
+                    </div>
+                    <button type="button" class="save-btn" onclick="createUser()">Buat User</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showContent(section) {
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // Show selected section
+            document.getElementById(section + '-content').style.display = 'block';
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(el => {
+                el.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                window.location.href = 'login.html';
+            }
+        }
+
+        function saveProfile() {
+            alert('Profile berhasil disimpan!');
+        }
+
+        function createUser() {
+            const username = document.getElementById('newUsername').value;
+            const email = document.getElementById('newEmail').value;
+            
+            if (username && email) {
+                alert('User baru berhasil dibuat!');
+                document.getElementById('createUserForm').reset();
+            } else {
+                alert('Mohon isi semua field yang diperlukan!');
+            }
+        }
+    </script>
+</body>
+</html>
