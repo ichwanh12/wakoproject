@@ -157,6 +157,62 @@
         .create-user-form.active {
             display: block;
         }
+
+        /* Form Input Styles */
+        .input-form {
+            display: none;
+        }
+
+        .input-form.active {
+            display: block;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+        }
+
+        .form-group input:disabled {
+            background-color: #f3f4f6;
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background-color: #f9fafb;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f3f4f6;
+        }
     </style>
 </head>
 <body>
@@ -168,6 +224,12 @@
         <ul class="nav-menu">
             <li class="nav-item">
                 <a href="#" class="nav-link active" onclick="showContent('dashboard')">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="showContent('input-data')">Input Data</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="showContent('report')">Report</a>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link" onclick="showContent('profile')">Profile</a>
@@ -190,6 +252,92 @@
             <div class="content-card">
                 <h2>Ringkasan</h2>
                 <p>Ini adalah halaman dashboard utama Anda.</p>
+            </div>
+        </div>
+
+        <!-- Input Data Content -->
+        <div id="input-data-content" class="content-section input-form">
+            <div class="content-header">
+                <h1>Input Data</h1>
+            </div>
+            <div class="content-card">
+                <form id="inputDataForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customerName">Nama Customer</label>
+                            <input type="text" id="customerName" name="customerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemName">Nama Item</label>
+                            <input type="text" id="itemName" name="itemName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="price">Harga</label>
+                            <input type="number" id="price" name="price" required onchange="calculateTotal()">
+                        </div>
+                        <div class="form-group">
+                            <label for="quantity">Quantity</label>
+                            <input type="number" id="quantity" name="quantity" required onchange="calculateTotal()">
+                        </div>
+                        <div class="form-group">
+                            <label for="unitPrice">Harga Satuan</label>
+                            <input type="number" id="unitPrice" name="unitPrice" disabled>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="totalPrice">Jumlah Harga</label>
+                            <input type="number" id="totalPrice" name="totalPrice" disabled>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="consignmentName">Nama Titipan</label>
+                            <input type="text" id="consignmentName" name="consignmentName">
+                        </div>
+                        <div class="form-group">
+                            <label for="consignmentQty">Quantity Titipan</label>
+                            <input type="number" id="consignmentQty" name="consignmentQty">
+                        </div>
+                        <div class="form-group">
+                            <label for="consignmentPrice">Harga Titipan</label>
+                            <input type="number" id="consignmentPrice" name="consignmentPrice">
+                        </div>
+                    </div>
+                    <button type="button" class="save-btn" onclick="saveData()">Simpan Data</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Report Content -->
+        <div id="report-content" class="content-section">
+            <div class="content-header">
+                <h1>Report Data</h1>
+            </div>
+            <div class="content-card">
+                <div class="table-container">
+                    <table id="reportTable">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Nama Customer</th>
+                                <th>Nama Item</th>
+                                <th>Harga</th>
+                                <th>Quantity</th>
+                                <th>Harga Satuan</th>
+                                <th>Jumlah Harga</th>
+                                <th>Nama Titipan</th>
+                                <th>Qty Titipan</th>
+                                <th>Harga Titipan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportTableBody">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -257,6 +405,11 @@
                 el.classList.remove('active');
             });
             event.target.classList.add('active');
+
+            // Update report table when showing report section
+            if (section === 'report') {
+                updateReportTable();
+            }
         }
 
         function logout() {
@@ -279,6 +432,73 @@
             } else {
                 alert('Mohon isi semua field yang diperlukan!');
             }
+        }
+
+        // Calculate total and unit price
+        function calculateTotal() {
+            const price = parseFloat(document.getElementById('price').value) || 0;
+            const quantity = parseFloat(document.getElementById('quantity').value) || 0;
+            
+            const unitPrice = price / (quantity || 1);
+            const totalPrice = price * quantity;
+            
+            document.getElementById('unitPrice').value = unitPrice.toFixed(2);
+            document.getElementById('totalPrice').value = totalPrice.toFixed(2);
+        }
+
+        // Save data to local storage and update report
+        function saveData() {
+            const formData = {
+                date: new Date().toLocaleDateString(),
+                customerName: document.getElementById('customerName').value,
+                itemName: document.getElementById('itemName').value,
+                price: document.getElementById('price').value,
+                quantity: document.getElementById('quantity').value,
+                unitPrice: document.getElementById('unitPrice').value,
+                totalPrice: document.getElementById('totalPrice').value,
+                consignmentName: document.getElementById('consignmentName').value,
+                consignmentQty: document.getElementById('consignmentQty').value,
+                consignmentPrice: document.getElementById('consignmentPrice').value
+            };
+
+            // Get existing data from localStorage
+            let savedData = JSON.parse(localStorage.getItem('reportData')) || [];
+            savedData.push(formData);
+            localStorage.setItem('reportData', JSON.stringify(savedData));
+
+            // Reset form
+            document.getElementById('inputDataForm').reset();
+            alert('Data berhasil disimpan!');
+            
+            // Update report table if visible
+            if (document.getElementById('report-content').style.display === 'block') {
+                updateReportTable();
+            }
+        }
+
+        // Update report table
+        function updateReportTable() {
+            const tableBody = document.getElementById('reportTableBody');
+            const savedData = JSON.parse(localStorage.getItem('reportData')) || [];
+            
+            tableBody.innerHTML = '';
+            
+            savedData.forEach(data => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${data.date}</td>
+                    <td>${data.customerName}</td>
+                    <td>${data.itemName}</td>
+                    <td>${data.price}</td>
+                    <td>${data.quantity}</td>
+                    <td>${data.unitPrice}</td>
+                    <td>${data.totalPrice}</td>
+                    <td>${data.consignmentName}</td>
+                    <td>${data.consignmentQty}</td>
+                    <td>${data.consignmentPrice}</td>
+                `;
+                tableBody.appendChild(row);
+            });
         }
     </script>
 </body>
